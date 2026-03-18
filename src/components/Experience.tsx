@@ -1,8 +1,4 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
 
 interface Job {
   company: string;
@@ -65,25 +61,29 @@ export default function Experience() {
 
   useEffect(() => {
     const section = sectionRef.current;
-    const line = lineRef.current;
-    if (!section || !line) return;
+    if (!section) return;
+
+    const cards = section.querySelectorAll<HTMLElement>('.experience-card');
+    const headerElements = section.querySelectorAll<HTMLElement>('.experience-tag, .experience-title');
 
     const ctx = gsap.context(() => {
       // Header animation
-      gsap.from(['.experience-tag', '.experience-title'], {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-        },
-      });
+      gsap.fromTo(headerElements, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        }
+      );
 
-      // Cards and bullets animation
-      const cards = section.querySelectorAll<HTMLElement>('.experience-card');
+      // Cards animation
       cards.forEach((card) => {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -117,23 +117,11 @@ export default function Experience() {
       });
     }, section);
 
-    // Safety net: ensure visibility after 2s
-    const safetyTimer = setTimeout(() => {
-      const cards = section.querySelectorAll<HTMLElement>('.experience-card');
-      const hidden = Array.from(cards).filter(c => Number(c.style.opacity) < 1);
-      if (hidden.length > 0) {
-        gsap.to(section.querySelectorAll('.experience-tag, .experience-title, .experience-card, li'), {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          duration: 0.5,
-          stagger: 0.05
-        });
-      }
-    }, 2000);
+    // Global refresh for ScrollTrigger
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 1000);
 
     return () => {
-      clearTimeout(safetyTimer);
+      clearTimeout(refreshTimer);
       ctx.revert();
     };
   }, []);
