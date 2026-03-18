@@ -59,7 +59,6 @@ function renderBullet(text: string) {
 
 export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;

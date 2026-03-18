@@ -3,9 +3,16 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaGraduationCap, FaUniversity } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
+interface EducationItem {
+  school: string;
+  degree: string;
+  date: string;
+  gpa: string;
+  location: string;
+  icon: React.ReactNode;
+}
 
-const EDUCATION = [
+const EDUCATION: EducationItem[] = [
   {
     school: 'Pace University',
     degree: 'Master of Science in Computer Science',
@@ -33,60 +40,64 @@ export default function Education() {
 
     const cards = section.querySelectorAll<HTMLElement>('.edu-card');
     const badge = section.querySelector<HTMLElement>('.cert-badge');
-
-    // Set initial hidden state via GSAP (not CSS) so they reset if animation doesn't fire
-    gsap.set(cards, { y: 40, opacity: 0 });
-    if (badge) gsap.set(badge, { scale: 0.8, opacity: 0 });
+    const headerElements = section.querySelectorAll<HTMLElement>('.edu-tag, .edu-title');
 
     const ctx = gsap.context(() => {
+      // Header animation
+      gsap.fromTo(headerElements, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        }
+      );
+
       // Animate cards in
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top 85%',
-        once: true,
-        onEnter: () => {
-          gsap.to(cards, {
-            y: 0,
-            opacity: 1,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: 'power3.out',
-          });
-        },
-      });
+      gsap.fromTo(cards, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.2,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        }
+      );
 
       // Animate badge
       if (badge) {
-        ScrollTrigger.create({
-          trigger: badge,
-          start: 'top 95%',
-          once: true,
-          onEnter: () => {
-            gsap.to(badge, {
-              scale: 1,
-              opacity: 1,
-              duration: 0.6,
-              ease: 'back.out(1.7)',
-            });
-          },
-        });
+        gsap.fromTo(badge, 
+          { scale: 0.8, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.6,
+            ease: 'back.out(1.7)',
+            scrollTrigger: {
+              trigger: badge,
+              start: 'top 95%',
+            },
+          }
+        );
       }
     }, section);
 
-    // Safety net: if user scrolls fast or uses nav-click, reveal after 2s
-    const safetyTimer = setTimeout(() => {
-      cards.forEach((card) => {
-        if (Number(card.style.opacity) < 1 || card.style.opacity === '') {
-          gsap.to(card, { opacity: 1, y: 0, duration: 0.4 });
-        }
-      });
-      if (badge && (Number(badge.style.opacity) < 1 || badge.style.opacity === '')) {
-        gsap.to(badge, { opacity: 1, scale: 1, duration: 0.4 });
-      }
-    }, 2500);
+    // Global refresh for ScrollTrigger
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 1000);
 
     return () => {
-      clearTimeout(safetyTimer);
+      clearTimeout(refreshTimer);
       ctx.revert();
     };
   }, []);
@@ -95,12 +106,12 @@ export default function Education() {
     <section ref={sectionRef} id="education" className="py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-5xl mx-auto text-center">
         <p
-          className="text-xs tracking-[0.3em] uppercase mb-4"
+          className="edu-tag text-xs tracking-[0.3em] uppercase mb-4"
           style={{ fontFamily: "'Fira Code', monospace", color: 'var(--accent-teal)' }}
         >
           // education
         </p>
-        <h2 className="text-4xl md:text-5xl font-bold mb-16">
+        <h2 className="edu-title text-4xl md:text-5xl font-bold mb-16">
           Academic <span style={{ color: 'var(--accent-purple)' }}>Background</span>
         </h2>
 

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 import { SiPython, SiMysql, SiPandas, SiNumpy, SiScikitlearn } from 'react-icons/si';
 import { FaBrain } from 'react-icons/fa';
@@ -48,25 +48,55 @@ export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
-    const ctx = gsap.context(() => {
-      const cards = sectionRef.current!.querySelectorAll('.project-card');
-      cards.forEach((card) => {
-        gsap.from(card, {
-          scale: 0.85,
-          opacity: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        });
-      });
-    }, sectionRef.current);
+    const section = sectionRef.current;
+    if (!section) return;
 
-    return () => ctx.revert();
+    const cards = section.querySelectorAll<HTMLElement>('.project-card');
+    const headerElements = section.querySelectorAll<HTMLElement>('.projects-tag, .projects-title');
+
+    const ctx = gsap.context(() => {
+      // Header animation
+      gsap.fromTo(headerElements, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        }
+      );
+
+      // Cards animation
+      cards.forEach((card) => {
+        gsap.fromTo(card, 
+          { scale: 0.85, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
+    }, section);
+
+    // Global refresh for ScrollTrigger
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 1000);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -74,12 +104,12 @@ export default function Projects() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center">
           <p
-            className="text-xs tracking-[0.3em] uppercase mb-4"
+            className="projects-tag text-xs tracking-[0.3em] uppercase mb-4"
             style={{ fontFamily: "'Fira Code', monospace", color: 'var(--accent-teal)' }}
           >
             // projects
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-16">
+          <h2 className="projects-title text-4xl md:text-5xl font-bold mb-16">
             Featured <span style={{ color: 'var(--accent-purple)' }}>Work</span>
           </h2>
         </div>
