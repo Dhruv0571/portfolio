@@ -142,25 +142,36 @@ export default function Contact() {
               href={c.href}
               target={c.href.startsWith('http') ? '_blank' : undefined}
               rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="contact-card p-6 rounded-2xl border text-center transition-all duration-300 hover:scale-105 hover:border-[var(--accent-purple)] group"
+              className="contact-card p-8 rounded-2xl border text-center transition-all duration-500 hover:scale-[1.03] hover:border-[var(--accent-purple)] group relative overflow-hidden"
               style={{
                 background: 'var(--bg-card)',
                 borderColor: 'var(--border-subtle)',
+                boxShadow: '0 0 0 rgba(124,92,252,0)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 10px 40px -10px rgba(124,92,252,0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 0 rgba(124,92,252,0)';
               }}
             >
               <div
-                className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center transition-colors duration-300"
+                className="w-14 h-14 mx-auto mb-6 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6"
                 style={{
                   background: 'rgba(124,92,252,0.1)',
                   color: 'var(--accent-purple)',
+                  boxShadow: 'inset 0 0 20px rgba(124,92,252,0.1)',
                 }}
               >
                 {c.icon}
               </div>
-              <p className="text-sm font-semibold mb-1">{c.label}</p>
-              <p className="text-xs" style={{ color: 'var(--text-muted)', fontFamily: "'Fira Code', monospace" }}>
+              <p className="text-base font-semibold mb-2 transition-colors duration-300 group-hover:text-[var(--accent-purple)]">{c.label}</p>
+              <p className="text-xs opacity-70 transition-opacity duration-300 group-hover:opacity-100" style={{ color: 'var(--text-muted)', fontFamily: "'Fira Code', monospace" }}>
                 {c.value}
               </p>
+              
+              {/* Subtle hover gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-purple)] to-transparent opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500 pointer-events-none" />
             </a>
           ))}
         </div>
