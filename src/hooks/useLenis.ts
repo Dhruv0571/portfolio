@@ -9,7 +9,14 @@ export function useLenis() {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
-    lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', () => {
+      ScrollTrigger.update();
+    });
+
+    // Refresh ScrollTrigger when everything is ready
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
 
     function raf(time: number) {
       lenis.raf(time);
