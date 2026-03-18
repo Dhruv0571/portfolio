@@ -30,7 +30,7 @@ const CONTACTS = [
   },
   {
     label: 'LinkedIn',
-    value: 'dhruv-patel-333765254',
+    value: 'Dhruv-Patel',
     href: 'https://www.linkedin.com/in/dhruv-patel-333765254',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -130,7 +130,7 @@ export default function Contact() {
         >
           Something
         </h2>
-        
+
         <p className="contact-heading text-lg md:text-xl mb-16 max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>
           Feel free to connect with me at <a href="mailto:dpatel5762@gmail.com" className="hover:underline transition-colors" style={{ color: 'var(--accent-teal)' }}>dpatel5762@gmail.com</a> or check out my GitHub <a href="https://github.com/Dhruv0571" className="hover:underline transition-colors" style={{ color: 'var(--accent-purple)' }}>@Dhruv0571</a>.
         </p>
@@ -169,7 +169,7 @@ export default function Contact() {
               <p className="text-xs opacity-70 transition-opacity duration-300 group-hover:opacity-100" style={{ color: 'var(--text-muted)', fontFamily: "'Fira Code', monospace" }}>
                 {c.value}
               </p>
-              
+
               {/* Subtle hover gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-purple)] to-transparent opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500 pointer-events-none" />
             </a>
