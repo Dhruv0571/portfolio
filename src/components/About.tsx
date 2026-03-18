@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 const STATS = [
   { value: 5, suffix: '+', label: 'Years Experience' },
@@ -31,32 +31,36 @@ export default function About() {
     if (!sectionRef.current) return;
     const ctx = gsap.context(() => {
       // Slide in text from left
-      gsap.from('.about-text', {
-        x: -80,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.about-text',
-          start: 'top 80%',
-          end: 'top 50%',
-          toggleActions: 'play none none none',
-        },
-      });
+      gsap.fromTo('.about-text', 
+        { x: -80, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.about-text',
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
 
       // Slide in stats from right
-      gsap.from('.about-stats', {
-        x: 80,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.about-stats',
-          start: 'top 80%',
-          end: 'top 50%',
-          toggleActions: 'play none none none',
-        },
-      });
+      gsap.fromTo('.about-stats', 
+        { x: 80, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.about-stats',
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
 
       // Counter animations
       const counters = sectionRef.current!.querySelectorAll('.stat-value');
