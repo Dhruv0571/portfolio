@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Dhruv Patel | Developer Portfolio 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, high-performance developer portfolio built with a modern stack focusing on visual excellence, smooth interactions, and technical precision.
 
-Currently, two official plugins are available:
+## ✨ Features
+- **Fluid Animations**: Custom GSAP timelines and ScrollTrigger effects for entry and element-level animations.
+- **Smooth Scrolling**: Integrated with **Lenis** for consistent, buttery-smooth momentum scrolling.
+- **Interactive 3D**: Dynamic Three.js background particles and a custom interactive 3D orb in the contact section.
+- **Visual Polish**: Built with **Tailwind CSS v4**, featuring a custom glassmorphism design system, vibrant gradients, and premium typography.
+- **Type Safety**: Fully written in **TypeScript** for robust state management and component structure.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
+- **Framework**: [React 18](https://reactjs.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Animation**: [GSAP](https://greensock.com/gsap/) (GreenSock Animation Platform)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Smooth Scroll**: [Lenis](https://lenis.darkroom.engineering/)
+- **3D Graphics**: [Three.js](https://threejs.org/)
 
-## React Compiler
+## 🚀 Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (v18+)
+- npm
 
-## Expanding the ESLint configuration
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Dhruv0571/portfolio.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd portfolio
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Building for Production
+To create an optimized production build:
+```bash
+npm run build
 ```
+The build is pre-configured to handle large asset chunks gracefully using a custom `vite.config.ts`.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📜 License
+Built with ❤️ by [Dhruv Patel](https://www.linkedin.com/in/dhruv-patel-333765254).
