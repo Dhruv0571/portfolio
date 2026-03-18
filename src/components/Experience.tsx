@@ -69,40 +69,85 @@ export default function Experience() {
     if (!section || !line) return;
 
     const ctx = gsap.context(() => {
-      // Entries animate in from bottom
-      const entries = section.querySelectorAll('.experience-card');
-      entries.forEach((entry) => {
-        gsap.fromTo(
-          entry,
+      // Header animation
+      gsap.from(['.experience-tag', '.experience-title'], {
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+        },
+      });
+
+      // Cards and bullets animation
+      const cards = section.querySelectorAll<HTMLElement>('.experience-card');
+      cards.forEach((card) => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+
+        tl.fromTo(
+          card,
           { y: 50, opacity: 0 },
           {
             y: 0,
             opacity: 1,
             duration: 0.8,
             ease: 'power3.out',
-            scrollTrigger: {
-              trigger: entry,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            },
           }
+        ).fromTo(
+          card.querySelectorAll('li'),
+          { x: -20, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power2.out',
+          },
+          '-=0.4'
         );
       });
     }, section);
 
-    return () => ctx.revert();
+    // Safety net: ensure visibility after 2s
+    const safetyTimer = setTimeout(() => {
+      const cards = section.querySelectorAll<HTMLElement>('.experience-card');
+      const hidden = Array.from(cards).filter(c => Number(c.style.opacity) < 1);
+      if (hidden.length > 0) {
+        gsap.to(section.querySelectorAll('.experience-tag, .experience-title, .experience-card, li'), {
+          opacity: 1,
+          y: 0,
+          x: 0,
+          duration: 0.5,
+          stagger: 0.05
+        });
+      }
+    }, 2000);
+
+    return () => {
+      clearTimeout(safetyTimer);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section ref={sectionRef} id="experience" className="min-h-screen py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-5xl mx-auto">
         <p
-          className="text-xs tracking-[0.3em] uppercase mb-4 text-center"
+          className="experience-tag text-xs tracking-[0.3em] uppercase mb-4 text-center"
           style={{ fontFamily: "'Fira Code', monospace", color: 'var(--accent-teal)' }}
         >
           // experience
         </p>
-        <h2 className="text-4xl md:text-5xl font-bold mb-20 text-center">
+        <h2 className="experience-title text-4xl md:text-5xl font-bold mb-20 text-center">
           Where I've <span style={{ color: 'var(--accent-purple)' }}>Worked</span>
         </h2>
 
