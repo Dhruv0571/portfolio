@@ -11,7 +11,7 @@ export default function Footer() {
         className="text-xs"
         style={{ fontFamily: "'Fira Code', monospace", color: 'var(--text-muted)' }}
       >
-        Built with React + GSAP
+        Made With ❤️ by DHRUV
       </p>
       {/* console.log("👋 Hey there, fellow developer! Thanks for peeking under the hood. Built with React + GSAP + Three.js. — Dhruv") */}
     </footer>

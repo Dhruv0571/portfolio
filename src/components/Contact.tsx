@@ -52,35 +52,57 @@ export default function Contact() {
   }, []);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const cards = section.querySelectorAll<HTMLElement>('.contact-card');
+    const heading = section.querySelectorAll<HTMLElement>('.contact-heading');
+
     const ctx = gsap.context(() => {
-      gsap.from('.contact-heading', {
+      gsap.from(heading, {
         y: 60,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
+          trigger: section,
+          start: 'top 75%',
           toggleActions: 'play none none none',
         },
       });
 
-      gsap.from('.contact-card', {
+      gsap.from(cards, {
         y: 40,
         opacity: 0,
         stagger: 0.1,
         duration: 0.6,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: '.contact-card',
-          start: 'top 85%',
+          trigger: cards[0], // Trigger based on the first card
+          start: 'top 90%',
           toggleActions: 'play none none none',
         },
       });
-    }, sectionRef.current);
+    }, section);
 
-    return () => ctx.revert();
+    // Safety net: ensure cards are visible after 2s if animation didn't fire
+    const safetyTimer = setTimeout(() => {
+      cards.forEach((card) => {
+        if (Number(card.style.opacity) < 1 || card.style.opacity === '') {
+          gsap.to(card, { opacity: 1, y: 0, duration: 0.4 });
+        }
+      });
+      heading.forEach((h) => {
+        if (Number(h.style.opacity) < 1 || h.style.opacity === '') {
+          gsap.to(h, { opacity: 1, y: 0, duration: 0.4 });
+        }
+      });
+    }, 2000);
+
+    return () => {
+      clearTimeout(safetyTimer);
+      ctx.revert();
+    };
   }, []);
 
   return (
