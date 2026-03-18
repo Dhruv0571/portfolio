@@ -6,7 +6,7 @@ import { SiTypescript, SiExpress, SiRedux, SiDjango, SiFlask, SiFastapi, SiStrea
 import { TbBrandCSharp } from 'react-icons/tb';
 import { VscAzureDevops } from 'react-icons/vsc';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 const SKILL_CATEGORIES = [
   {
@@ -65,74 +65,84 @@ const SKILL_CATEGORIES = [
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Ensure all elements are visible initially
-    const tags = section.querySelectorAll('.skill-tag');
-    const categories = section.querySelectorAll('.skill-category');
-
-    tags.forEach((tag) => {
-      (tag as HTMLElement).style.opacity = '1';
-    });
-    categories.forEach((cat) => {
-      (cat as HTMLElement).style.opacity = '1';
-    });
+    const tags = section.querySelectorAll<HTMLElement>('.skill-tag');
+    const categories = section.querySelectorAll<HTMLElement>('.skill-category');
+    const headerElements = section.querySelectorAll<HTMLElement>('.skills-tag, .skills-title');
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          if (hasAnimated.current) return;
-          hasAnimated.current = true;
+      // Header animation
+      gsap.fromTo(headerElements, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        }
+      );
 
-          gsap.fromTo(
-            categories,
-            { y: 40, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              stagger: 0.15,
-              duration: 0.7,
-              ease: 'power3.out',
-            }
-          );
+      // Categories and tags animation
+      gsap.fromTo(categories, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+          },
+        }
+      );
 
-          gsap.fromTo(
-            tags,
-            { y: 20, opacity: 0, rotation: 5 },
-            {
-              y: 0,
-              opacity: 1,
-              rotation: 0,
-              stagger: 0.04,
-              duration: 0.5,
-              delay: 0.2,
-              ease: 'power3.out',
-            }
-          );
-        },
-      });
+      gsap.fromTo(tags, 
+        { y: 20, opacity: 0, rotation: 5 },
+        {
+          y: 0,
+          opacity: 1,
+          rotation: 0,
+          stagger: 0.02,
+          duration: 0.5,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+          },
+        }
+      );
     }, section);
 
-    return () => ctx.revert();
+    // Global refresh for ScrollTrigger
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 1000);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section ref={sectionRef} id="skills" className="min-h-screen flex items-center justify-center py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-5xl mx-auto w-full text-center">
         <p
-          className="text-xs tracking-[0.3em] uppercase mb-4"
+          className="skills-tag text-xs tracking-[0.3em] uppercase mb-4"
           style={{ fontFamily: "'Fira Code', monospace", color: 'var(--accent-teal)' }}
         >
           // technical skills
         </p>
-        <h2 className="text-4xl md:text-5xl font-bold mb-16">
+        <h2 className="skills-title text-4xl md:text-5xl font-bold mb-16">
           Tools I <span style={{ color: 'var(--accent-purple)' }}>Work With</span>
         </h2>
 

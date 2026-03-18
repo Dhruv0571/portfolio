@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaGraduationCap, FaUniversity } from 'react-icons/fa';
@@ -9,7 +9,7 @@ interface EducationItem {
   date: string;
   gpa: string;
   location: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }
 
 const EDUCATION: EducationItem[] = [
