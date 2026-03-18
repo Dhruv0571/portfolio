@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ContactOrb } from '../three/ContactOrb';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 const CONTACTS = [
   {
@@ -56,51 +56,47 @@ export default function Contact() {
     if (!section) return;
 
     const cards = section.querySelectorAll<HTMLElement>('.contact-card');
-    const heading = section.querySelectorAll<HTMLElement>('.contact-heading');
+    const introElements = section.querySelectorAll<HTMLElement>('.contact-intro, .contact-heading');
 
     const ctx = gsap.context(() => {
-      gsap.from(heading, {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      });
+      // Intro and heading animation
+      gsap.fromTo(introElements, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        }
+      );
 
-      gsap.from(cards, {
-        y: 40,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: cards[0], // Trigger based on the first card
-          start: 'top 90%',
-          toggleActions: 'play none none none',
-        },
-      });
+      // Cards animation
+      gsap.fromTo(cards, 
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: cards[0],
+            start: 'top 90%',
+          },
+        }
+      );
     }, section);
 
-    // Safety net: ensure cards are visible after 2s if animation didn't fire
-    const safetyTimer = setTimeout(() => {
-      cards.forEach((card) => {
-        if (Number(card.style.opacity) < 1 || card.style.opacity === '') {
-          gsap.to(card, { opacity: 1, y: 0, duration: 0.4 });
-        }
-      });
-      heading.forEach((h) => {
-        if (Number(h.style.opacity) < 1 || h.style.opacity === '') {
-          gsap.to(h, { opacity: 1, y: 0, duration: 0.4 });
-        }
-      });
-    }, 2000);
+    // Global refresh for ScrollTrigger
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 1000);
 
     return () => {
-      clearTimeout(safetyTimer);
+      clearTimeout(refreshTimer);
       ctx.revert();
     };
   }, []);
@@ -116,7 +112,7 @@ export default function Contact() {
 
       <div className="relative z-10 text-center max-w-5xl mx-auto">
         <p
-          className="text-xs tracking-[0.3em] uppercase mb-4"
+          className="contact-intro text-xs tracking-[0.3em] uppercase mb-4"
           style={{ fontFamily: "'Fira Code', monospace", color: 'var(--accent-teal)' }}
         >
           // get in touch
