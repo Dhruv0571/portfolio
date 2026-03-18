@@ -12,7 +12,6 @@ export default function Hero() {
       tl.from('.hero-badge', { y: 30, opacity: 0, duration: 0.8, delay: 0.3 })
         .from('.hero-name span', { y: 60, opacity: 0, stagger: 0.15, duration: 0.8 }, '-=0.4')
         .from('.hero-subtitle', { y: 40, opacity: 0, duration: 0.7 }, '-=0.3')
-        .from('.hero-cta', { y: 30, opacity: 0, stagger: 0.12, duration: 0.6 }, '-=0.3')
         .from('.hero-scroll', { y: 20, opacity: 0, duration: 0.5 }, '-=0.1');
     }, sectionRef.current);
 
@@ -52,32 +51,6 @@ export default function Hero() {
         >
           Software Engineer · New York · Building scalable systems
         </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="#projects"
-            className="hero-cta px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 hover:scale-105"
-            style={{
-              background: 'var(--accent-purple)',
-              color: '#fff',
-              boxShadow: '0 0 30px rgba(124,92,252,0.3)',
-            }}
-          >
-            View Projects
-          </a>
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-cta px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide border transition-all duration-300 hover:scale-105"
-            style={{
-              borderColor: 'var(--accent-purple)',
-              color: 'var(--accent-purple)',
-            }}
-          >
-            Download Resume
-          </a>
-        </div>
       </div>
 
       {/* Scroll indicator */}
